@@ -17,8 +17,8 @@
  *
  */
 
-module.exports = {
-  toArrayBuffer(buf) {
+const utils = {
+  toArrayBuffer(buf: any[]) {
     const ab = new ArrayBuffer(buf.length);
     const view = new Uint8Array(ab);
     for (let i = 0; i < buf.length; i++) {
@@ -27,3 +27,5 @@ module.exports = {
     return ab;
   },
 };
+
+export default utils;
