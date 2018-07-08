@@ -16,7 +16,8 @@
   "description": "Node.js module for creating Wire bots",
   "devDependencies": {
     "eslint": "3.13.1",
-    "prettier": "1.13.7"
+    "prettier": "1.13.7",
+    "typescript": "2.9.2"
   },
   "keywords": [
     "Wire",
