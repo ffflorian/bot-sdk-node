@@ -4,3 +4,4 @@ example/server.key
 package-lock.json
 dist/
 *.log
+certificates/

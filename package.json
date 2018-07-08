@@ -1,17 +1,10 @@
 {
-  "author": "Damir Nedžibović <damirn@gmail.com>",
-  "contributors": [
-    "Florian Keller <github@floriankeller.de>"
-  ],
+  "author": "Florian Keller <github@floriankeller.de>",
   "dependencies": {
-    "@wireapp/cryptobox": "8.5.9",
-    "@wireapp/proteus": "7.2.8",
+    "@wireapp/core": "3.8.0",
     "base64-arraybuffer": "0.1.5",
     "follow-redirects": "1.5.1",
-    "libsodium": "0.7.3",
-    "libsodium-wrappers": "0.7.3",
-    "protocol-buffers": "4.0.4",
-    "uuid": "3.3.2"
+    "logdown": "3.2.3"
   },
   "description": "Node.js module for creating Wire bots",
   "devDependencies": {
@@ -20,12 +13,8 @@
     "rimraf": "2.6.2",
     "typescript": "2.9.2"
   },
-  "keywords": [
-    "Wire",
-    "bot"
-  ],
   "license": "GPL-3.0",
-  "main": "index.js",
+  "main": "dist/index.js",
   "name": "@wireapp/bot-sdk-node",
   "private": true,
   "repository": "https://github.com/wireapp/bot-sdk-node",
@@ -35,5 +24,6 @@
     "dist": "yarn clear && yarn build",
     "test": "exit 0"
   },
+  "types": "dist/index.d.ts",
   "version": "0.0.1"
 }

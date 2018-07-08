@@ -1,6 +1,6 @@
 /*
  * Wire
- * Copyright (C) 2017 Wire Swiss GmbH
+ * Copyright (C) 2018 Wire Swiss GmbH
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,15 +17,12 @@
  *
  */
 
-const utils = {
-  toArrayBuffer(buf: any[]) {
-    const ab = new ArrayBuffer(buf.length);
-    const view = new Uint8Array(ab);
-    for (let i = 0; i < buf.length; i++) {
-      view[i] = buf[i];
-    }
-    return ab;
-  },
-};
+interface BotOptions {
+  auth: string;
+  cert: string;
+  key: string;
+  port: number;
+  storePath: string;
+}
 
-export default utils;
+export {BotOptions};
