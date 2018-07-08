@@ -17,14 +17,21 @@
  *
  */
 
+import * as http from 'http';
 const https = require('follow-redirects').https;
 
-module.exports = class HttpsClient {
-  constructor(token) {
+type ClientRequestModified = http.ClientRequest & {errorCnt: number};
+
+type Data = {[key: string]: string} | Buffer | null;
+
+class HttpsClient {
+  private token: string;
+
+  constructor(token: string) {
     this.token = token;
   }
 
-  static onError(req, e, cb) {
+  static onError(req: ClientRequestModified, e: Error | null, cb: (data: Data, status: number) => any) {
     if (req.errorCnt > 1) {
       return;
     }
@@ -37,8 +44,9 @@ module.exports = class HttpsClient {
     cb(null, 0);
   }
 
-  sendRequest(method, path, data, additionalHeaders, cb) {
-    const options = {
+  sendRequest(method: string, path: string, data: any, additionalHeaders: {[key: string]: string} | null, cb: (data: Data, statusCode: number) => any) {
+    const options:
+    http.RequestOptions = {
       hostname: 'prod-nginz-https.wire.com',
       port: 443,
       path,
@@ -50,25 +58,25 @@ module.exports = class HttpsClient {
     };
     if (additionalHeaders != null) {
       Object.keys(additionalHeaders).forEach((hKey) => {
-        options.headers[hKey] = additionalHeaders[hKey];
+        options.headers![hKey] = additionalHeaders[hKey];
       });
     }
     console.log(options.headers);
-    const req = https.request(options, (res) => {
-      let responseData = [];
-      res.on('data', (chunk) => {
+    const req = https.request(options, (res: http.ServerResponse) => {
+      let responseData: Buffer[] = [];
+      res.on('data', (chunk: Buffer) => {
         console.log('got data from https');
         responseData.push(chunk);
       });
       res.on('end', () => {
         console.log(`req end from https ${res.statusCode}`);
-        responseData = Buffer.concat(responseData);
-        cb(responseData, res.statusCode);
+        const result = Buffer.concat(responseData);
+        cb(result, res.statusCode);
       });
     });
 
     req.errorCnt = 0;
-    req.on('error', (e) => {
+    req.on('error', (e: Error) => {
       req.errorCnt += 1;
       HttpsClient.onError(req, e, cb);
     });
@@ -87,35 +95,41 @@ module.exports = class HttpsClient {
     req.end();
   }
 
-  sendMessage(postData, ignoreMissing, cb) {
+  sendMessage(postData: string, ignoreMissing: boolean, cb: (data: Data, status: number) => any) {
     const path = `/bot/messages?ignore_missing=${ignoreMissing}`;
     this.sendRequest('POST', path, postData, null, (retData, status) => {
-      const json = JSON.parse(retData.toString('utf8')); // fixme: try/catch
-      cb(json, status);
+      if (retData) {
+        const json = JSON.parse(retData.toString()); // fixme: try/catch
+        cb(json, status);
+      }
     });
   }
 
-  getClients(postData, cb) {
+  getClients(postData: string, cb: (data: Data, status: number) => any) {
     this.sendRequest('GET', '/bot/client', postData, null, cb);
   }
 
-  getPrekeys(forUsersAndDevices, cb) {
+  getPrekeys(forUsersAndDevices: {[key: string]: string}, cb: (data: {[key: string]: string}, status: number) => any) {
     console.log(`getprekeys ${JSON.stringify(forUsersAndDevices)}`);
     this.sendRequest('POST', '/bot/users/prekeys', forUsersAndDevices, null, (retData, status) => {
-      const json = JSON.parse(retData.toString('utf8')); // fixme: try/catch
-      cb(json, status);
+      if (retData) {
+        const json = JSON.parse(retData.toString()); // fixme: try/catch
+        cb(json, status);
+      }
     });
   }
 
-  getAsset(assetID, assetToken, cb) {
+  getAsset(assetID: string, assetToken: string, cb: (data: Data, status: number) => any) {
     console.log(`assetID ${assetID} token ${assetToken}`);
     this.sendRequest('GET', `/bot/assets/${assetID}`, null,
     { 'Asset-Token': assetToken }, cb);
   }
 
-  uploadAsset(assetData, cb) {
+  uploadAsset(assetData: any, cb: (data: Data, status: number) => any) {
     this.sendRequest('POST', '/bot/assets', assetData, {
       'Content-Type': 'multipart/mixed; boundary=frontier',
       'Content-Length': assetData.length }, cb);
   }
 };
+
+export {HttpsClient};
