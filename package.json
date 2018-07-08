@@ -1,42 +1,33 @@
 {
-  "name": "wire-bot-sdk-node",
-  "version": "0.0.1",
-  "description": "Node.js module for creating Wire bots",
-  "main": "index.js",
-  "private": true,
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "author": "Damir Nedžibović <damirn@gmail.com>",
+  "contributors": [
+    "Florian Keller <github@floriankeller.de>"
+  ],
+  "dependencies": {
+    "@wireapp/cryptobox": "8.5.9",
+    "@wireapp/proteus": "7.2.8",
+    "base64-arraybuffer": "0.1.5",
+    "follow-redirects": "1.5.1",
+    "libsodium": "0.7.3",
+    "libsodium-wrappers": "0.7.3",
+    "protocol-buffers": "4.0.4",
+    "uuid": "3.3.2"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/wireapp/bot-sdk-node.git"
+  "description": "Node.js module for creating Wire bots",
+  "devDependencies": {
+    "eslint": "3.13.1"
   },
   "keywords": [
     "Wire",
     "bot"
   ],
-  "author": "Damir Nedžibović <damirn@gmail.com>",
   "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/wireapp/bot-sdk-node/issues"
+  "main": "index.js",
+  "name": "@wireapp/bot-sdk-node",
+  "private": true,
+  "repository": "https://github.com/wireapp/bot-sdk-node",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "homepage": "https://github.com/wireapp/bot-sdk-node#readme",
-  "engines": {
-    "node": "6.9.0"
-  },
-  "dependencies": {
-    "base64-arraybuffer": "^0.1.5",
-    "cryptobox": "git+https://github.com/damirn/cryptobox.js.git",
-    "follow-redirects": "^1.2.1",
-    "libsodium": "^0.4.8",
-    "libsodium-wrappers": "^0.4.8",
-    "protocol-buffers": "^3.2.1",
-    "uuid": "^3.0.1",
-    "wire-webapp-proteus": "^3.0.3"
-  },
-  "devDependencies": {
-    "eslint": "^3.13.1",
-    "eslint-config-airbnb-base": "^11.0.1",
-    "eslint-plugin-import": "^2.2.0"
-  }
+  "version": "0.0.1"
 }

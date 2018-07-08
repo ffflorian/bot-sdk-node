@@ -4,3 +4,4 @@ test
 .idea/
 example/server.crt
 example/server.key
+package-lock.json
